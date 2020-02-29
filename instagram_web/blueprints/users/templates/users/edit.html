@@ -1,0 +1,32 @@
+<!-- Edit User Form -->
+{%extends "_layout.html"%}
+{%block content%}
+
+
+<h1>Upload Your Files Bro</h1>
+
+<form action="/" method="POST" enctype="multipart/form-data">
+
+    <label for="user_file">Upload Your File</label>
+    <br></br>
+    <input type="file" name="user_file">
+    <br></br>
+    <button type="submit">Upload</button>
+
+</form>
+
+<form method="POST" action="{{url_for('users.edit',id= current_user.id)}}">
+    <div class="form-group">
+        <label for="exampleInputEmail1"> Update Email</label>
+        <input type="email" class="form-control" name="user_email" value="{{user.email}}" aria-describedby="emailHelp"
+            placeholder="Enter email">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Update Username</label>
+        <input type="text" class="form-control" value="{{user.name}}" name="user_name" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{%endblock%}

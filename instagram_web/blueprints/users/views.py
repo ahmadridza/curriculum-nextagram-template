@@ -1,6 +1,7 @@
 import peeweedbevolve
-from flask import Flask, render_template, request, flash, Blueprint
+from flask import Flask, render_template, request, flash, Blueprint, redirect, url_for
 from models.user import User
+from flask_login import current_user
 
 users_blueprint = Blueprint('users',
                             __name__,
@@ -21,13 +22,13 @@ def create():
 
     user = User(name=user_name, email=user_email, password=user_password)
 
-    try:
-        user.save()
-        # flash(f"Saved store:{store_name}")
+    if user.save():
+        flash("User Created")
         return redirect(url_for("users.new"))
 
-    except:
-        # flash("That name is already taken")
+    else:
+        for error in user.errors:
+            flash(error)
         # linking and displaying at the specific file
         return render_template("users/new.html")
 
@@ -46,7 +47,11 @@ def index():
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
 def edit(id):
-    pass
+    # Query for a user
+    flash("User edited")
+    user = User.get_or_none(User.id == id)
+    # Render a template and pass the user out
+    return render_template('users/edit.html', user=user, id=id)
 # edit users details
 
 
