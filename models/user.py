@@ -3,12 +3,14 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import peewee as pw
 import re
 from flask_login import UserMixin
+from playhouse.hybrid import hybrid_property
 
 
 class User(BaseModel, UserMixin):
     name = pw.CharField(unique=False)
     email = pw.CharField(unique=False)
     password = pw.CharField(unique=True)
+    profile_image = pw.CharField(null=True)
 
     def validate(self):
         if len(self.password) < 6:  # if password length is less than six (self.password is from the class User which we specify in views.py templates/user/blueprint)
@@ -28,3 +30,19 @@ class User(BaseModel, UserMixin):
             self.password = generate_password_hash(self.password)
         if User.get_or_none(User.email == self.email):
             self.errors.append("Email is not unique")
+
+    @hybrid_property
+    def has_profile_image(self):
+        return f"https://nextagram-ridza.s3-ap-southeast-1.amazonaws.com/{self.profile_image}"
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
