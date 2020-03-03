@@ -1,0 +1,11 @@
+{%extends "_layout.html"%}
+{%block content%}
+
+{% for image in images %}
+<div style="justify-content: center;">
+    <img class="p-3" style=" margin-right:auto; margin-left:auto;height:500px; width: 800px;"
+        src="{{image.has_filename}}">
+</div>
+{%endfor%}
+
+{%endblock%}

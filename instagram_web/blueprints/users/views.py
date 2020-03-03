@@ -1,6 +1,7 @@
 import peeweedbevolve
 from flask import Flask, render_template, request, flash, Blueprint, redirect, url_for
 from models.user import User
+from models.image import Image
 from flask_login import current_user, login_required, login_user
 from werkzeug.utils import secure_filename
 from instagram_web.util.helpers import upload_files_to_s3
@@ -42,9 +43,10 @@ def show(username):
 # display single user
 
 
-@users_blueprint.route('/', methods=["GET"])
+@users_blueprint.route('/index', methods=['GET'])
 def index():
-    return "USERS"
+    images = Image.select().where(Image.user_id != current_user.id)
+    return render_template('users/index.html', images=images)
 # display all users
 
 
