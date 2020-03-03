@@ -36,6 +36,9 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
         </form>
         {% else %}
+        <form class="form-inline my-2 my-lg-0" action="{{url_for('images.new')}}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">My Profile</button>
+        </form>
         <form class="form-inline my-2 my-lg-0" action="{{url_for('users.edit',id= current_user.id)}}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Update Profile</button>
         </form>

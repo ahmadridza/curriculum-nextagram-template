@@ -64,20 +64,6 @@ def edit(id):
             return render_template("users/edit.html", user=user)
 
 
-#     # Query for a user
-#     flash("User edited")
-#     user = User.get_or_none(User.id == id)
-#     # Render a template and pass the user out
-#     return render_template('users/edit.html', user=user, id=id)
-# # edit users details
-
-
-# @users_blueprint.route('/<id>', methods=['POST'])
-# def update(id):
-#     pass
-# # funtion to update details
-
-
 @users_blueprint.route('/upload', methods=['POST'])
 @login_required
 def upload():
