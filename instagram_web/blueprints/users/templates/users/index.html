@@ -1,11 +1,39 @@
 {%extends "_layout.html"%}
 {%block content%}
+<div class="container">
+    <h2 class="text-center">News Feed</h2>
+    {% for image in images %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card m-4">
+                <img class="m-3 w-75 mx-auto d-block" src="{{image.has_filename}}">
+                <div class="card-body">
+                    <h5 class="card-title row justify-content-center">{{image.user.name}}</h5>
+                    <div class="card-title row justify-content-center">
 
-{% for image in images %}
-<div style="justify-content: center;">
-    <img class="p-3" style=" margin-right:auto; margin-left:auto;height:500px; width: 800px;"
-        src="{{image.has_filename}}">
+                        <h4><i class="far fa-heart"></i>
+                            &nbsp
+                            &nbsp
+                            &nbsp
+                            <a href="{{url_for('donations.new', image_id=image.id)}}"><i
+                                    class="fas fa-dollar-sign"></i></a>
+                            &nbsp
+                            &nbsp
+                            &nbsp
+                            <i class="far fa-comment"></i>
+                        </h4>
+
+                    </div>
+
+                    <small>Donation: RM{{image.total_donations}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
 </div>
-{%endfor%}
+
+
+
 
 {%endblock%}
