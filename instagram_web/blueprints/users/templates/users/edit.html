@@ -1,34 +1,45 @@
 <!-- Edit User Form -->
 {%extends "_layout.html"%}
 {%block content%}
+<br></br>
+<div class="row justify-content-center mx-0">
+    <div class="col-md-6">
+
+        <h2>Update Your Profile</h2>
 
 
-<h1>Upload Your Files Bro</h1>
+        <form method="POST" enctype="multipart/form-data" action="{{url_for('users.upload', id=current_user.id)}}">
 
-<form method="POST" enctype="multipart/form-data" action="{{url_for('users.upload', id=current_user.id)}}">
+            <br>
+            <br>
 
+            <img src="{{current_user.has_profile_image}}" alt="image" class="w-50 h-50" style="border-radius: 500px;">
 
-    <label for="user_file">Upload Your File</label>
-    <br></br>
-    <input type="file" name="user_file">
-    <img src="{{current_user.has_profile_image}}">
-    <br></br>
-    <button type="submit">Upload</button>
+            <br>
+            <br>
+            <label for="user_file">Upload Your Profile Image</label>
+            <br></br>
+            <input type="file" name="user_file">
 
-</form>
+            <br></br>
 
-<form method="POST" action="{{url_for('users.edit',id= current_user.id)}}">
-    <div class="form-group">
-        <label for="exampleInputEmail1"> Update Email</label>
-        <input type="email" class="form-control" name="user_email" value="{{user.email}}" aria-describedby="emailHelp"
-            placeholder="Enter email">
+            <button type="submit">Upload</button>
+
+        </form>
+        <hr />
+        <form method="POST" action="{{url_for('users.edit',id= current_user.id)}}">
+            <div class="form-group">
+                <label for="exampleInputEmail1"> Update Email</label>
+                <input type="email" class="form-control" name="user_email" value="{{user.email}}"
+                    aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Update Username</label>
+                <input type="text" class="form-control" value="{{user.name}}" name="user_name" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Update Username</label>
-        <input type="text" class="form-control" value="{{user.name}}" name="user_name" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
+</div>
 {%endblock%}

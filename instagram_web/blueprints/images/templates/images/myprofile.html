@@ -1,22 +1,26 @@
 {%extends "_layout.html"%}
 {%block content%}
-<form method="POST" action="{{url_for('images.upload', id=current_user.id)}}" enctype='multipart/form-data'>
+<div class="row justify-content-center mx-0">
+    <div class="col-md-6">
+        <form method="POST" action="{{url_for('images.upload', id=current_user.id)}}" enctype='multipart/form-data'>
+            <br></br>
+            <img src="{{current_user.has_profile_image}}" alt="image" class="w-50 h-50" style="border-radius: 500px;">
+            <br></br>
+            <label for="user_file"> Upload Your Images</label>
+            <br></br>
+            <input type="file" name="user_file">
+
+            <br></br>
+            <button type="submit">Upload</button>
+
+            <hr />
 
 
-    <label for="user_file"> Upload Your Images</label>
-    <br></br>
-    <input type="file" name="user_file">
+        </form>
 
-    <br></br>
-    <button type="submit">Upload</button>
-
-    <hr />
-
-
-</form>
-
-{% for image in user.images %}
-<img src="{{image.has_filename}}">
-
+        {% for image in user.images %}
+        <img src="{{image.has_filename}}" class="w-50">
+    </div>
+</div>
 {%endfor%}
 {%endblock%}

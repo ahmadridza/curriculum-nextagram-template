@@ -2,6 +2,7 @@ from flask import Blueprint, session, redirect, url_for, escape, request, flash,
 from werkzeug.security import check_password_hash
 from models.user import User
 from flask_login import login_user, logout_user
+from instagram_web.util.google_oauth import oauth
 
 
 sessions_blueprint = Blueprint(
@@ -35,7 +36,7 @@ def login():
     else:
         login_user(user)
         flash("Your are now logged in")
-        return redirect(url_for("home"))
+        return redirect(url_for("users.index"))
 
 
 @sessions_blueprint.route("/logout")
@@ -48,3 +49,29 @@ def logout():
 @sessions_blueprint.route('/new')
 def anything():
     pass
+
+
+@sessions_blueprint.route("/google_login")
+def google_login():
+    redirect_uri = url_for('sessions.google_authorize', _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
+
+
+@sessions_blueprint.route("/google_authorize")
+def google_authorize():
+
+    token = oauth.google.authorize_access_token()
+
+    if token:
+        email = oauth.google.get(
+            'https://www.googleapis.com/oauth2/v2/userinfo').json()['email']
+
+        user = User.get_or_none(User.email == email)
+
+        if not user:
+            flash('No user registered with this account')
+            return redirect(url_for('sessions.new'))
+
+    login_user(user)
+    flash(f'Welcome back {user.name}')
+    return redirect(url_for('users.edit', id=user.id))
