@@ -9,7 +9,7 @@
 
 
         <form method="POST" enctype="multipart/form-data" action="{{url_for('users.upload', id=current_user.id)}}">
-
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
             <br>
             <br>
 

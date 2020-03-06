@@ -1,0 +1,49 @@
+<!-- Dispaly individual user -->
+
+{%extends "_layout.html"%}
+{%block content%}
+<h1>{{user.name}}</h1>
+
+<div class="row">
+    <div class="col">
+        <img class="w-25" src="{{current_user.profile_image}}" alt="" />
+    </div>
+
+    <div class="col d-flex">
+        {% if not current_user.is_following(user)%}
+        <div class="col">
+            <form action="{{url_for('follows.create', idol_id=user.id)}}" method="POST">
+
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+                <button type="submit" class="btn btn-primary">
+                    Follow
+                </button>
+            </form>
+        </div>
+
+        {%else%}
+
+        <div class="col">
+            <form method="POST" action="{{url_for('follows.delete', idol_id=user.id)}}">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+                <button type="submit" class="btn btn-primary">
+                    unFollow
+                </button>
+            </form>
+        </div>
+        {%endif%}
+        <div class="col">
+            <h2>Followers: {{user.fans |length}}</h2>
+        </div>
+
+        <div class="col">
+            <h2>Following: {{user.idol |length}}</h2>
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}

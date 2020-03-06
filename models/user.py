@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import peewee as pw
 import re
 from flask_login import UserMixin
-from playhouse.hybrid import hybrid_property
+from playhouse.hybrid import hybrid_property, hybrid_method
 
 
 class User(BaseModel, UserMixin):
@@ -46,3 +46,19 @@ class User(BaseModel, UserMixin):
 
     def get_id(self):
         return self.id
+
+    @hybrid_method
+    def is_following(self, user):
+        from models.follower_following import FollowerFollowing
+        return True if FollowerFollowing.get_or_none(
+            (FollowerFollowing.fan_id == user.id) &
+            (FollowerFollowing.idol_id == self.id)
+        ) else False
+
+    @hybrid_method
+    def is_followed_by(self, user):
+        from models.follower_following import FollowerFollowing
+        return True if FollowerFollowing.get_or_none(
+            (FollowerFollowing.fan_id == self.id) &
+            (FollowerFollowing.idol_id == user.id)
+        ) else False

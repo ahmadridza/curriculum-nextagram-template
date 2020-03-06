@@ -38,8 +38,18 @@ def create():
 
 
 @users_blueprint.route('/<username>', methods=["GET"])
+@login_required
 def show(username):
-    pass
+
+    user = User.get_or_none(User.name == username)
+
+    if not user:
+        flash(f'No User With that Usernam {username}')
+        return redirect(url_for('users.index'))
+
+    return render_template('users/show.html', user=user)
+
+# reder template for
 # display single user
 
 

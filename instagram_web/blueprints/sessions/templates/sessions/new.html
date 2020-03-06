@@ -1,6 +1,7 @@
 {% extends "_layout.html" %}
 {% block content %}
 <form method="POST" action="{{url_for('sessions.login')}}">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
     <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
         <input type="email" class="form-control" name="user_email" placeholder="Enter email">
